@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - ProDetail Mobile Auto Detailing</title>
+  <link rel="icon" type="image/jpeg" href="images/autodetail_logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = { 
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'accent': '#10B981', /* Beautiful Emerald Green */
+            'brand-dark': '#0F172A', /* Deep Midnight Blue/Black */
+            'brand-light': '#F8FAFC', /* Clean Slate White */
+            'brand-muted': '#64748B' /* Cool Gray */
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    .dark ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+    .dark ::-webkit-scrollbar-thumb { background: #333; }
+    ::-webkit-scrollbar-thumb:hover { background: #10B981; }
+    
+    /* Smooth transition for sidebar */
+    .sidebar-transition {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* RTL Support for Sidebar Toggle */
+    [dir="rtl"] #sidebar.sidebar-closed {
+      transform: translateX(100%);
+    }
+    [dir="ltr"] #sidebar.sidebar-closed {
+      transform: translateX(-100%);
+    }
+
+    /* Smooth fade for sections */
+    .content-section {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased bg-brand-light dark:bg-brand-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity opacity-0"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 start-0 z-50 w-64 bg-brand-dark dark:bg-[#111827] border-e border-gray-200 dark:border-white/5 text-brand-light sidebar-closed lg:!translate-x-0 sidebar-transition flex flex-col">
+      
+      <div class="h-[90px] flex items-center justify-center border-b border-gray-800 dark:border-white/5 px-6 shrink-0">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="flex flex-col">
+            <span class="text-2xl font-semibold tracking-tight text-brand-light uppercase">Pro<span class="text-accent">Detail.</span></span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto py-8 flex flex-col gap-2 scrollbar-thin">
+        
+        <p class="px-8 text-[10px] font-medium text-brand-muted uppercase tracking-[0.2em] mb-2">Main</p>
+        
+        <a href="#" data-target="section-overview" class="nav-tab flex items-center gap-4 px-8 py-3 bg-white/5 border-s-2 border-accent text-accent transition-all duration-300 group">
+          <i class="fas fa-th-large w-5 text-center"></i>
+          <span class="text-xs uppercase tracking-widest font-semibold">Overview</span>
+        </a>
+
+        <a href="#" data-target="section-appointments" class="nav-tab flex items-center gap-4 px-8 py-3 text-brand-muted border-s-2 border-transparent hover:border-accent hover:text-accent hover:bg-white/5 transition-all duration-300 group">
+          <i class="fas fa-calendar-check w-5 text-center transition-colors"></i>
+          <span class="text-xs uppercase tracking-widest font-medium">Appointments</span>
+          <span class="ms-auto bg-accent text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">3</span>
+        </a>
+
+        <a href="#" data-target="section-inquiries" class="nav-tab flex items-center gap-4 px-8 py-3 text-brand-muted border-s-2 border-transparent hover:border-accent hover:text-accent hover:bg-white/5 transition-all duration-300 group">
+          <i class="fas fa-envelope w-5 text-center transition-colors"></i>
+          <span class="text-xs uppercase tracking-widest font-medium">Inquiries</span>
+          <span class="ms-auto bg-gray-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">2</span>
+        </a>
+
+        <p class="px-8 text-[10px] font-medium text-brand-muted uppercase tracking-[0.2em] mt-6 mb-2">Services</p>
+
+        <a href="#" data-target="section-mobile-detailing" class="nav-tab flex items-center gap-4 px-8 py-3 text-brand-muted border-s-2 border-transparent hover:border-accent hover:text-accent hover:bg-white/5 transition-all duration-300 group">
+          <i class="fas fa-car w-5 text-center transition-colors"></i>
+          <span class="text-xs uppercase tracking-widest font-medium">Auto Detailing</span>
+        </a>
+
+        <a href="#" data-target="section-ceramic-coating" class="nav-tab flex items-center gap-4 px-8 py-3 text-brand-muted border-s-2 border-transparent hover:border-accent hover:text-accent hover:bg-white/5 transition-all duration-300 group">
+          <i class="fas fa-shield-halved w-5 text-center transition-colors"></i>
+          <span class="text-xs uppercase tracking-widest font-medium">Ceramic Coating</span>
+        </a>
+
+      </nav>
+
+      <div class="p-6 border-t border-gray-800 dark:border-white/5 bg-brand-dark dark:bg-[#0d1320]">
+        <div class="flex items-center gap-4 group cursor-pointer">
+          <img src="https://images.unsplash.com/photo-1562564055-71e051d33c19?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin" class="w-10 h-10 object-cover rounded-full grayscale group-hover:grayscale-0 transition-all duration-300 border border-gray-700">
+          <div class="overflow-hidden">
+            <p class="text-xs uppercase tracking-wider font-semibold text-brand-light truncate">Alex Mercer</p>
+            <p class="text-[10px] uppercase tracking-widest text-accent truncate">Lead Dispatch</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col lg:ms-64 min-w-0 transition-all duration-300 bg-brand-light dark:bg-brand-dark">
+      
+      <header class="h-[90px] bg-white dark:bg-[#1E293B] border-b border-gray-200 dark:border-white/5 flex items-center justify-between px-4 md:px-8 z-30 sticky top-0 transition-colors duration-300 shadow-sm">
+        
+        <div class="flex items-center gap-4">
+          <button id="sidebar-toggle" class="lg:hidden p-2 text-gray-900 dark:text-brand-light transition-colors focus:outline-none">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+          <h2 id="header-title" class="text-sm md:text-base font-semibold tracking-widest uppercase text-brand-dark dark:text-brand-light truncate hidden sm:block">Overview Dashboard</h2>
+        </div>
+
+        <div class="flex items-center gap-4">
+          
+          <div class="hidden md:flex relative group">
+            <input type="text" placeholder="SEARCH..." class="ps-10 pe-4 py-3 bg-transparent border border-gray-300 dark:border-gray-700 rounded-full text-brand-dark dark:text-brand-light text-xs uppercase tracking-widest focus:outline-none focus:border-accent w-48 lg:w-64 transition-all">
+            <i class="fas fa-search absolute start-4 top-3.5 text-brand-muted group-focus-within:text-accent transition-colors text-xs"></i>
+          </div>
+
+          <div class="h-8 w-px bg-gray-200 dark:bg-gray-800 mx-2 hidden sm:block"></div>
+
+          <button id="rtl-toggle" class="text-xs font-medium uppercase tracking-widest text-brand-muted hover:text-accent transition-colors duration-300" title="Toggle RTL">
+            <span id="rtl-text">RTL</span>
+          </button>
+
+          <button id="theme-toggle" class="relative w-[72px] h-[34px] flex items-center bg-gray-200 dark:bg-[#0F172A] rounded-full p-1 transition-colors duration-300 focus:outline-none border border-gray-300 dark:border-gray-700 overflow-hidden" title="Toggle Theme">
+            <span class="text-[9px] font-medium text-gray-500 absolute end-2.5 dark:opacity-0 transition-opacity duration-300 tracking-wider">LIGHT</span>
+            <span class="text-[9px] font-medium text-accent absolute start-2.5 opacity-0 dark:opacity-100 transition-opacity duration-300 tracking-wider">DARK</span>
+            
+            <div class="w-[24px] h-[24px] bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-gray-600 rounded-full shadow-sm transform transition-transform duration-300 flex items-center justify-center rtl:dark:-translate-x-[38px] ltr:dark:translate-x-[38px] dark:translate-x-[38px] z-10">
+              <i class="fas fa-sun text-[11px] text-accent dark:hidden block"></i>
+              <i class="fas fa-moon text-[11px] text-accent hidden dark:block"></i>
+            </div>
+          </button>
+
+          <a href="login.html" class="bg-accent border-2 border-accent text-white hover:bg-transparent hover:text-accent px-6 py-2.5 text-xs uppercase tracking-wider font-semibold transition-all duration-300 flex items-center gap-2 rounded-full">
+            <span class="hidden sm:inline">Logout</span>
+            <i class="fas fa-arrow-right text-[10px] rtl:rotate-180"></i>
+          </a>
+
+        </div>
+      </header>
+
+      <main class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth relative">
+        
+        <div id="section-overview" class="content-section">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 relative group hover:border-accent transition-colors">
+              <div class="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl"></div>
+              <p class="text-[10px] text-brand-muted dark:text-gray-400 font-medium uppercase tracking-widest mb-2">Total Revenue</p>
+              <h3 class="text-3xl font-semibold text-brand-dark dark:text-brand-light">$45,500</h3>
+              <div class="mt-4 flex items-center text-[10px] font-medium tracking-wider uppercase">
+                <span class="text-accent flex items-center gap-1"><i class="fas fa-arrow-up"></i> 15%</span>
+                <span class="text-brand-muted ms-2">Vs Last Month</span>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 relative group hover:border-accent transition-colors">
+              <div class="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl"></div>
+              <p class="text-[10px] text-brand-muted dark:text-gray-400 font-medium uppercase tracking-widest mb-2">Active Bookings</p>
+              <h3 class="text-3xl font-semibold text-brand-dark dark:text-brand-light">32</h3>
+              <div class="mt-4 flex items-center text-[10px] font-medium tracking-wider uppercase">
+                <span class="text-brand-muted">12 Scheduled Today</span>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 relative group hover:border-accent transition-colors">
+              <div class="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl"></div>
+              <p class="text-[10px] text-brand-muted dark:text-gray-400 font-medium uppercase tracking-widest mb-2">Total Clients</p>
+              <h3 class="text-3xl font-semibold text-brand-dark dark:text-brand-light">840</h3>
+              <div class="mt-4 flex items-center text-[10px] font-medium tracking-wider uppercase">
+                <span class="text-accent flex items-center gap-1"><i class="fas fa-arrow-up"></i> 8%</span>
+                <span class="text-brand-muted ms-2">Vs Last Month</span>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 relative group hover:border-accent transition-colors">
+              <div class="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl"></div>
+              <p class="text-[10px] text-brand-muted dark:text-gray-400 font-medium uppercase tracking-widest mb-2">Vans Dispatched</p>
+              <h3 class="text-3xl font-semibold text-brand-dark dark:text-brand-light">6</h3>
+              <div class="mt-4 flex items-center text-[10px] font-medium tracking-wider uppercase">
+                <span class="text-green-500">Currently On Route</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5">
+              <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light mb-6">Revenue Analytics</h3>
+              <div class="relative h-64 w-full">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5">
+              <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light mb-6">Service Distribution</h3>
+              <div class="relative h-64 w-full flex justify-center">
+                <canvas id="projectChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="section-appointments" class="content-section hidden">
+          <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden w-full">
+            <div class="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+              <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light">All Appointments</h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-start whitespace-nowrap">
+                <thead>
+                  <tr class="bg-gray-50 dark:bg-black/20 text-brand-muted dark:text-gray-400 text-[10px] uppercase tracking-widest border-b border-gray-100 dark:border-white/5">
+                    <th class="px-6 py-4 font-medium text-start">Client Name</th>
+                    <th class="px-6 py-4 font-medium text-start">Service</th>
+                    <th class="px-6 py-4 font-medium text-start">Date & Time</th>
+                    <th class="px-6 py-4 font-medium text-start">Status</th>
+                    <th class="px-6 py-4 font-medium text-end">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5 text-sm">
+                  <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                    <td class="px-6 py-5 font-semibold text-brand-dark dark:text-brand-light">Emily Blunt</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs uppercase tracking-wider font-medium">Ceramic Coating</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs tracking-wider font-medium">OCT 28, 10:00 AM</td>
+                    <td class="px-6 py-5">
+                      <span class="text-[10px] font-semibold uppercase tracking-widest text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">Confirmed</span>
+                    </td>
+                    <td class="px-6 py-5 text-end">
+                      <button class="text-gray-400 hover:text-accent transition-colors"><i class="fas fa-arrow-right rtl:rotate-180"></i></button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                    <td class="px-6 py-5 font-semibold text-brand-dark dark:text-brand-light">John Doe</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs uppercase tracking-wider font-medium">Full Interior Detail</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs tracking-wider font-medium">OCT 29, 2:00 PM</td>
+                    <td class="px-6 py-5">
+                      <span class="text-[10px] font-semibold uppercase tracking-widest text-accent bg-accent/10 px-2 py-1 rounded-full">Pending</span>
+                    </td>
+                    <td class="px-6 py-5 text-end">
+                      <button class="text-gray-400 hover:text-accent transition-colors"><i class="fas fa-arrow-right rtl:rotate-180"></i></button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                    <td class="px-6 py-5 font-semibold text-brand-dark dark:text-brand-light">Sarah Williams</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs uppercase tracking-wider font-medium">Paint Correction</td>
+                    <td class="px-6 py-5 text-brand-muted dark:text-gray-400 text-xs tracking-wider font-medium">NOV 02, 9:00 AM</td>
+                    <td class="px-6 py-5">
+                      <span class="text-[10px] font-semibold uppercase tracking-widest text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">Confirmed</span>
+                    </td>
+                    <td class="px-6 py-5 text-end">
+                      <button class="text-gray-400 hover:text-accent transition-colors"><i class="fas fa-arrow-right rtl:rotate-180"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="section-inquiries" class="content-section hidden">
+          <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-6 w-full">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light mb-6">Recent Inquiries</h3>
+            <div class="flex flex-col gap-6">
+              
+              <div class="flex items-start gap-4 group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700 p-4 rounded-xl transition-all">
+                <div class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-brand-muted group-hover:border-accent group-hover:text-accent transition-colors shrink-0">
+                  <i class="fas fa-user text-xs"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex justify-between items-start">
+                    <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider truncate">Michael Brown</h4>
+                    <span class="text-[10px] font-medium uppercase tracking-widest text-accent">2H Ago</span>
+                  </div>
+                  <p class="text-xs text-brand-muted dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed font-medium">Looking for a full ceramic coating package for my new Porsche 911. I want to know if you can come to my office location in downtown tomorrow afternoon.</p>
+                </div>
+              </div>
+
+              <hr class="border-gray-100 dark:border-white/5">
+
+              <div class="flex items-start gap-4 group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700 p-4 rounded-xl transition-all">
+                <div class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-brand-muted group-hover:border-accent group-hover:text-accent transition-colors shrink-0">
+                  <i class="fas fa-user text-xs"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex justify-between items-start">
+                    <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider truncate">Emily Davis</h4>
+                    <span class="text-[10px] font-medium uppercase tracking-widest text-accent">5H Ago</span>
+                  </div>
+                  <p class="text-xs text-brand-muted dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed font-medium">Interested in getting severe swirl marks removed from a black SUV. What is your pricing and availability for next week?</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="section-mobile-detailing" class="content-section hidden">
+          <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-6 w-full">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light mb-6">Mobile Auto Detailing Packages</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <div class="border border-gray-100 dark:border-gray-700 p-5 rounded-xl hover:border-accent transition-colors">
+                <div class="flex items-center justify-between mb-3">
+                  <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider">Basic Wash</h4>
+                  <span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">$75+</span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-gray-400 mb-4 line-clamp-2">Standard exterior wash, tire dressing, interior wipe down, and quick vacuum for a fresh daily look.</p>
+                <button class="text-[10px] font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light hover:text-accent transition-colors">Edit Package <i class="fas fa-arrow-right ms-1"></i></button>
+              </div>
+
+              <div class="border border-gray-100 dark:border-gray-700 p-5 rounded-xl hover:border-accent transition-colors">
+                <div class="flex items-center justify-between mb-3">
+                  <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider">Full Detail</h4>
+                  <span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">$250+</span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-gray-400 mb-4 line-clamp-2">Deep interior shampoo, exterior decontamination, polish, and premium wax application.</p>
+                <button class="text-[10px] font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light hover:text-accent transition-colors">Edit Package <i class="fas fa-arrow-right ms-1"></i></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="section-ceramic-coating" class="content-section hidden">
+          <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-6 w-full">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light mb-6">Ceramic Coating Services</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <div class="border border-gray-100 dark:border-gray-700 p-5 rounded-xl hover:border-accent transition-colors">
+                <div class="flex items-center justify-between mb-3">
+                  <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider">1-Year Protection</h4>
+                  <span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">$400+</span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-gray-400 mb-4 line-clamp-2">Entry-level ceramic coating layer providing high gloss, easy maintenance, and moderate UV protection.</p>
+                <button class="text-[10px] font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light hover:text-accent transition-colors">Edit Package <i class="fas fa-arrow-right ms-1"></i></button>
+              </div>
+
+              <div class="border border-gray-100 dark:border-gray-700 p-5 rounded-xl hover:border-accent transition-colors">
+                <div class="flex items-center justify-between mb-3">
+                  <h4 class="text-sm font-semibold text-brand-dark dark:text-brand-light uppercase tracking-wider">5-Year Premium</h4>
+                  <span class="text-xs font-bold text-accent bg-accent/10 px-2 py-1 rounded">$900+</span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-gray-400 mb-4 line-clamp-2">Multi-layer 9H ceramic coating offering extreme hydrophobicity, scratch resistance, and a mirror finish.</p>
+                <button class="text-[10px] font-semibold uppercase tracking-widest text-brand-dark dark:text-brand-light hover:text-accent transition-colors">Edit Package <i class="fas fa-arrow-right ms-1"></i></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // --- Tab Filtering Logic ---
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const contentSections = document.querySelectorAll('.content-section');
+    const headerTitle = document.getElementById('header-title');
+
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 1. Get the target section ID and Tab Name
+        const targetId = tab.getAttribute('data-target');
+        const tabName = tab.querySelector('span').innerText;
+
+        // 2. Update Header Title
+        if(headerTitle) headerTitle.innerText = `${tabName} Dashboard`;
+
+        // 3. Update active state on Sidebar Nav
+        navTabs.forEach(t => {
+          t.classList.remove('bg-white/5', 'border-accent', 'text-accent');
+          t.classList.add('border-transparent', 'text-brand-muted');
+        });
+        tab.classList.remove('border-transparent', 'text-brand-muted');
+        tab.classList.add('bg-white/5', 'border-accent', 'text-accent');
+
+        // 4. Show target section, Hide others
+        contentSections.forEach(section => {
+          if (section.id === targetId) {
+            section.classList.remove('hidden');
+          } else {
+            section.classList.add('hidden');
+          }
+        });
+
+        // 5. Force Chart.js to resize if they are inside the newly revealed container
+        if(targetId === 'section-overview' && revenueChart && projectChart) {
+           revenueChart.resize();
+           projectChart.resize();
+        }
+
+        // 6. Close Sidebar on Mobile after click
+        if (window.innerWidth < 1024) {
+          toggleSidebar();
+        }
+      });
+    });
+
+
+    // --- RTL/LTR Toggle Logic ---
+    const rtlToggle = document.getElementById('rtl-toggle');
+    const rtlText = document.getElementById('rtl-text');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('direction') === 'rtl') {
+      html.setAttribute('dir', 'rtl');
+      rtlText.textContent = 'LTR';
+    } else {
+      html.setAttribute('dir', 'ltr');
+      rtlText.textContent = 'RTL';
+    }
+
+    rtlToggle.addEventListener('click', () => {
+      const currentDir = html.getAttribute('dir');
+      
+      if (currentDir === 'ltr') {
+        html.setAttribute('dir', 'rtl');
+        localStorage.setItem('direction', 'rtl');
+        rtlText.textContent = 'LTR';
+      } else {
+        html.setAttribute('dir', 'ltr');
+        localStorage.setItem('direction', 'ltr');
+        rtlText.textContent = 'RTL';
+      }
+      
+      // Resize charts when layout shifts
+      setTimeout(() => {
+        if(revenueChart) revenueChart.resize();
+        if(projectChart) projectChart.resize();
+      }, 300);
+    });
+
+
+    // --- Responsive Sidebar Logic ---
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    function toggleSidebar() {
+      const isClosed = sidebar.classList.contains('sidebar-closed');
+      
+      if (isClosed) {
+        sidebar.classList.remove('sidebar-closed');
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+          overlay.classList.remove('opacity-0');
+        }, 10);
+      } else {
+        sidebar.classList.add('sidebar-closed');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    sidebarToggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+
+    // --- Dark Mode Logic ---
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      if (html.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        updateCharts(true);
+      } else {
+        localStorage.setItem('theme', 'light');
+        updateCharts(false);
+      }
+    });
+
+
+    // --- Chart.js Configuration ---
+    let revenueChart, projectChart;
+
+    function initCharts() {
+      const isDark = html.classList.contains('dark');
+      const textColor = '#64748B'; // brand-muted
+      const gridColor = isDark ? '#334155' : '#e2e8f0';
+
+      const ctx1 = document.getElementById('revenueChart').getContext('2d');
+      revenueChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Revenue ($)',
+            data: [15000, 21000, 18000, 29000, 24000, 34000],
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4, // Smooth lines
+            fill: true,
+            borderWidth: 2,
+            pointBackgroundColor: isDark ? '#0F172A' : '#fff',
+            pointBorderColor: '#10B981',
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              grid: { color: gridColor, drawBorder: false },
+              ticks: { color: textColor, font: { family: 'sans-serif', size: 10 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: textColor, font: { family: 'sans-serif', size: 10 } }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: isDark ? '#1E293B' : '#fff',
+              titleColor: isDark ? '#fff' : '#0F172A',
+              bodyColor: isDark ? '#cbd5e1' : '#475569',
+              borderColor: gridColor,
+              borderWidth: 1,
+              padding: 12,
+              cornerRadius: 8,
+              displayColors: false
+            }
+          }
+        }
+      });
+
+      const ctx2 = document.getElementById('projectChart').getContext('2d');
+      projectChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['Completed', 'Upcoming', 'Pending'],
+          datasets: [{
+            data: [45, 32, 12],
+            backgroundColor: isDark ? ['#F8FAFC', '#10B981', '#334155'] : ['#0F172A', '#10B981', '#e2e8f0'],
+            borderWidth: isDark ? 2 : 0,
+            borderColor: isDark ? '#1E293B' : '#fff',
+            hoverOffset: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '75%',
+          plugins: {
+            legend: { position: 'bottom', labels: { color: textColor, padding: 20, usePointStyle: false, boxWidth: 10, font: {size: 10, family: 'sans-serif'} } }
+          }
+        }
+      });
+    }
+
+    function updateCharts(isDark) {
+      const textColor = '#64748B';
+      const gridColor = isDark ? '#334155' : '#e2e8f0';
+
+      if(revenueChart) {
+        revenueChart.options.scales.y.grid.color = gridColor;
+        revenueChart.options.plugins.tooltip.backgroundColor = isDark ? '#1E293B' : '#fff';
+        revenueChart.options.plugins.tooltip.titleColor = isDark ? '#fff' : '#0F172A';
+        revenueChart.options.plugins.tooltip.bodyColor = isDark ? '#cbd5e1' : '#475569';
+        revenueChart.options.plugins.tooltip.borderColor = gridColor;
+        revenueChart.data.datasets[0].pointBackgroundColor = isDark ? '#0F172A' : '#fff';
+        revenueChart.update();
+      }
+      if(projectChart) {
+        projectChart.data.datasets[0].backgroundColor = isDark ? ['#F8FAFC', '#10B981', '#334155'] : ['#0F172A', '#10B981', '#e2e8f0'];
+        projectChart.data.datasets[0].borderWidth = isDark ? 2 : 0;
+        projectChart.options.plugins.legend.labels.color = textColor;
+        projectChart.update();
+      }
+    }
+
+    window.addEventListener('load', initCharts);
+    
+    window.addEventListener('resize', () => {
+       if (window.innerWidth >= 1024) {
+         sidebar.classList.remove('sidebar-closed');
+         overlay.classList.add('hidden', 'opacity-0');
+       } else {
+         if (!overlay.classList.contains('hidden')) {
+           // Keep open if it was open
+         } else {
+           sidebar.classList.add('sidebar-closed');
+         }
+       }
+    });
+  </script>
+</body>
+</html>
