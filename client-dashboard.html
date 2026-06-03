@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Dashboard - ProDetail Mobile Auto Detailing</title>
-<link rel="icon" type="image/jpeg" href="image\fair icon.jpg">
+  <link rel="icon" type="image/jpeg" href="image/fair icon.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -15,10 +15,10 @@
       theme: {
         extend: {
           colors: {
-            'accent': '#10B981', /* Beautiful Emerald Green */
-            'brand-dark': '#0F172A', /* Deep Midnight Blue/Black */
-            'brand-light': '#F8FAFC', /* Clean Slate White */
-            'brand-muted': '#64748B' /* Cool Gray */
+            'accent': '#10B981', 
+            'brand-dark': '#0F172A', 
+            'brand-light': '#F8FAFC', 
+            'brand-muted': '#64748B' 
           }
         }
       }
@@ -97,13 +97,10 @@
       </nav>
 
       <div class="p-6 border-t border-gray-800 dark:border-white/5 bg-brand-dark dark:bg-[#0d1320]">
-        <div class="flex items-center gap-4 group cursor-pointer">
-          <img src="https://ui-avatars.com/api/?name=Emily+Blunt&background=0F172A&color=10B981" alt="User" class="w-10 h-10 object-cover rounded-full grayscale group-hover:grayscale-0 transition-all duration-300 border border-gray-700">
-          <div class="overflow-hidden">
-            <p class="text-xs uppercase tracking-wider font-semibold text-brand-light truncate">Emily Blunt</p>
-            <p class="text-[10px] uppercase tracking-widest text-accent truncate">Client #PD-2026</p>
-          </div>
-        </div>
+        <a href="login.html" class="w-full flex items-center justify-center gap-3 bg-transparent border border-gray-700 text-brand-light hover:border-accent hover:text-accent px-4 py-3 text-xs uppercase tracking-widest font-semibold transition-all duration-300 rounded-lg group">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
       </div>
     </aside>
 
@@ -117,7 +114,7 @@
               <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
-          <h2 id="header-title" class="text-sm md:text-base font-semibold tracking-widest uppercase text-brand-dark dark:text-brand-light truncate hidden sm:block">Welcome Back, Emily</h2>
+          <h2 id="header-title" class="text-sm md:text-base font-semibold tracking-widest uppercase text-brand-dark dark:text-brand-light truncate hidden sm:block">Overview Dashboard</h2>
         </div>
 
         <div class="flex items-center gap-4">
@@ -136,18 +133,24 @@
             </div>
           </button>
 
-          <div class="h-8 w-px bg-gray-200 dark:bg-gray-800 mx-2 hidden sm:block"></div>
-
-          <a href="login.html" class="bg-accent border-2 border-accent text-white hover:bg-transparent hover:text-accent px-6 py-2.5 text-xs uppercase tracking-wider font-semibold transition-all duration-300 flex items-center gap-2 rounded-full">
-            <span class="hidden sm:inline">Logout</span>
-            <i class="fas fa-arrow-right text-[10px] rtl:rotate-180"></i>
-          </a>
+          <div class="flex items-center gap-3 cursor-pointer ps-4 border-s border-gray-200 dark:border-gray-800 ms-2">
+            <img src="https://ui-avatars.com/api/?name=Emily+Blunt&background=0F172A&color=10B981" alt="User" class="w-10 h-10 object-cover rounded-full border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:border-accent">
+            <div class="hidden sm:block overflow-hidden">
+              <p class="text-xs uppercase tracking-wider font-semibold text-brand-dark dark:text-brand-light truncate">Emily Blunt</p>
+              <p class="text-[10px] uppercase tracking-widest text-accent truncate">Client #PD-2026</p>
+            </div>
+          </div>
 
         </div>
       </header>
 
       <main class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
         
+        <div class="mb-8 animate-fade-in">
+          <h1 class="text-2xl font-bold text-brand-dark dark:text-brand-light mb-1">Welcome back, Emily! 👋</h1>
+          <p class="text-sm text-brand-muted dark:text-gray-400 font-medium">Here's the latest update on your detailing services.</p>
+        </div>
+
         <div id="section-overview" class="content-section">
           
           <div class="bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-white/5 rounded-2xl p-6 md:p-8 mb-8 relative group hover:border-accent transition-colors shadow-sm">
@@ -378,13 +381,9 @@
            serviceChart.resize();
         }
 
-        // 5. Optionally adjust title based on tab (Welcome Back for overview, otherwise tab name)
+        // 5. Update header title to the current tab
         if (headerTitle) {
-           if(targetId === 'section-overview') {
-             headerTitle.innerText = "Welcome Back, Emily";
-           } else {
-             headerTitle.innerText = tabName;
-           }
+           headerTitle.innerText = tabName + " Dashboard";
         }
 
         // 6. Close sidebar on Mobile

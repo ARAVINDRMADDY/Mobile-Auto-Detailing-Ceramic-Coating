@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - ProDetail Mobile Auto Detailing</title>
-<link rel="icon" type="image/jpeg" href="image\fair icon.jpg">
+<link rel="icon" type="image/jpeg" href="image/fair icon.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -110,13 +110,10 @@
       </nav>
 
       <div class="p-6 border-t border-gray-800 dark:border-white/5 bg-brand-dark dark:bg-[#0d1320]">
-        <div class="flex items-center gap-4 group cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1562564055-71e051d33c19?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin" class="w-10 h-10 object-cover rounded-full grayscale group-hover:grayscale-0 transition-all duration-300 border border-gray-700">
-          <div class="overflow-hidden">
-            <p class="text-xs uppercase tracking-wider font-semibold text-brand-light truncate">Alex Mercer</p>
-            <p class="text-[10px] uppercase tracking-widest text-accent truncate">Lead Dispatch</p>
-          </div>
-        </div>
+        <a href="login.html" class="w-full flex items-center justify-center gap-3 bg-transparent border border-gray-700 text-brand-light hover:border-accent hover:text-accent px-4 py-3 text-xs uppercase tracking-widest font-semibold transition-all duration-300 rounded-lg group">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
       </div>
     </aside>
 
@@ -156,16 +153,24 @@
             </div>
           </button>
 
-          <a href="login.html" class="bg-accent border-2 border-accent text-white hover:bg-transparent hover:text-accent px-6 py-2.5 text-xs uppercase tracking-wider font-semibold transition-all duration-300 flex items-center gap-2 rounded-full">
-            <span class="hidden sm:inline">Logout</span>
-            <i class="fas fa-arrow-right text-[10px] rtl:rotate-180"></i>
-          </a>
+          <div class="flex items-center gap-3 cursor-pointer ps-4 border-s border-gray-200 dark:border-gray-800">
+            <img src="https://images.unsplash.com/photo-1562564055-71e051d33c19?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin" class="w-10 h-10 object-cover rounded-full border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:border-accent">
+            <div class="hidden sm:block overflow-hidden">
+              <p class="text-xs uppercase tracking-wider font-semibold text-brand-dark dark:text-brand-light truncate">Alex Mercer</p>
+              <p class="text-[10px] uppercase tracking-widest text-accent truncate">Lead Dispatch</p>
+            </div>
+          </div>
 
         </div>
       </header>
 
       <main class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth relative">
         
+        <div class="mb-8">
+          <h1 class="text-2xl font-bold text-brand-dark dark:text-brand-light mb-1">Welcome back, Alex! 👋</h1>
+          <p class="text-sm text-brand-muted dark:text-gray-400 font-medium">Here's what's happening with your detailing business today.</p>
+        </div>
+
         <div id="section-overview" class="content-section">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 relative group hover:border-accent transition-colors">
