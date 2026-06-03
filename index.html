@@ -229,46 +229,40 @@
 
   <main class="flex-grow flex flex-col pt-[90px]">
     
-    <section id="home" class="relative flex-grow flex items-center justify-center overflow-hidden py-12 lg:py-20 bg-gradient-to-br from-brand-light via-white to-brand-muted/10 dark:from-brand-dark dark:via-[#111827] dark:to-brand-dark">
-      <div class="absolute top-20 start-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
-      <div class="absolute bottom-20 end-10 w-96 h-96 bg-brand-muted/20 dark:bg-accent/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    <!-- Hero Section: Background image + centered content -->
+    <section id="home" class="relative flex-grow flex items-center justify-center overflow-hidden min-h-[90vh] bg-cover bg-center bg-no-repeat"
+             style="background-image: url('https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=2000&q=80');">
+      
+      <!-- Dark overlay for better text contrast -->
+      <div class="absolute inset-0 bg-black/50 dark:bg-black/60 z-0"></div>
+      
+      <!-- Animated blur circles (behind text) -->
+      <div class="absolute top-20 start-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse z-10"></div>
+      <div class="absolute bottom-20 end-10 w-96 h-96 bg-brand-muted/30 dark:bg-accent/10 rounded-full blur-3xl animate-pulse z-10" style="animation-delay: 1s;"></div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full mt-4">
-        <div class="grid lg:grid-cols-2 gap-12 items-center lg:items-start">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+        <!-- Centered text container -->
+        <div class="flex flex-col items-center text-center gap-6 animate-fade-in max-w-3xl mx-auto text-white">
+          
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+            SHOWROOM <br/>
+            SHINE <br/>
+            <span class="text-accent">DELIVERED.</span>
+          </h1>
 
-          <div class="text-brand-dark dark:text-brand-light flex flex-col gap-6 animate-fade-in pt-2">
-         
+          <p class="text-lg text-white/90 leading-relaxed font-medium">
+            We bring professional auto detailing and long-lasting ceramic coating directly to your home or office. Protect your investment and drive with pride.
+          </p>
 
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mt-2">
-              SHOWROOM <br/>
-              SHINE <br/>
-              <span class="text-accent">DELIVERED.</span>
-            </h1>
-
-            <p class="text-lg text-brand-muted dark:text-gray-400 leading-relaxed font-medium max-w-lg">
-              We bring professional auto detailing and long-lasting ceramic coating directly to your home or office. Protect your investment and drive with pride.
-            </p>
-
-            <div class="flex flex-wrap gap-4 pt-2">
-              <a href="register.html" class="inline-flex items-center justify-center px-8 py-4 bg-brand-dark dark:bg-brand-light text-brand-light dark:text-brand-dark hover:bg-accent dark:hover:bg-accent dark:hover:text-white font-medium uppercase tracking-widest text-xs transition-all duration-300 gap-2">
-                <span>Register Now</span>
-                <i class="fas fa-arrow-right rtl:rotate-180"></i>
-              </a>
-              <a href="services.html" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-brand-light hover:border-accent hover:text-accent font-medium uppercase tracking-widest text-xs transition-all duration-300">
-                <span>View Packages</span>
-              </a>
-            </div>
-
-         
+          <div class="flex flex-wrap gap-4 justify-center pt-2">
+            <a href="register.html" class="inline-flex items-center justify-center px-8 py-4 bg-brand-dark dark:bg-brand-light text-brand-light dark:text-brand-dark hover:bg-accent dark:hover:bg-accent dark:hover:text-white font-medium uppercase tracking-widest text-xs transition-all duration-300 gap-2 shadow-lg">
+              <span>Register Now</span>
+              <i class="fas fa-arrow-right rtl:rotate-180"></i>
+            </a>
+            <a href="services.html" class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/70 text-white hover:border-accent hover:text-accent font-medium uppercase tracking-widest text-xs transition-all duration-300 backdrop-blur-sm">
+              <span>View Packages</span>
+            </a>
           </div>
-
-          <div class="relative animate-fade-in lg:ps-6">
-             <div class="relative overflow-hidden shadow-2xl h-[450px] lg:h-[580px] w-full group rounded-lg">
-               <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1000&q=80" alt="Professional Auto Detailing Paint Correction" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-               <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-             </div>
-          </div>
-
         </div>
       </div>
     </section>
@@ -718,7 +712,6 @@
       mobileMenu.classList.toggle('hidden');
       menuIcon.classList.toggle('hidden');
       closeIcon.classList.toggle('hidden');
-      // Fix for Flexbox fallback on mobile menu open
       if (!mobileMenu.classList.contains('hidden')) {
           mobileMenu.classList.add('flex');
       } else {
@@ -738,17 +731,16 @@
           if(menu.classList.contains('hidden')) {
             icon.classList.remove('fa-minus');
             icon.classList.add('fa-plus');
-            menu.classList.remove('flex'); // Add this for flex compatibility
+            menu.classList.remove('flex');
           } else {
             icon.classList.remove('fa-plus');
             icon.classList.add('fa-minus');
-            menu.classList.add('flex'); // Add this for flex compatibility
+            menu.classList.add('flex');
           }
         });
       }
     }
 
-    // Initialize dropdowns
     setupMobileDropdown('mobile-home-dropdown', 'mobile-home-menu', 'mobile-home-icon');
     setupMobileDropdown('mobile-dashboard-dropdown', 'mobile-dashboard-menu', 'mobile-dashboard-icon');
 
